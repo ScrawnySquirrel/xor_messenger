@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -20,6 +21,8 @@ import com.firebase.client.FirebaseError;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Chat extends AppCompatActivity {
     LinearLayout layout;
@@ -97,9 +100,36 @@ public class Chat extends AppCompatActivity {
         });
     }
 
-    public void addMessageBox(String message, int type){
-        TextView textView = new TextView(Chat.this);
+    public void addMessageBox(final String message, int type){
+        final TextView textView = new TextView(Chat.this);
         textView.setText(message);
+        textView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Thread t = new Thread() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            while (!isInterrupted()) {
+                                Thread.sleep(5000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        textView.setClickable(true);
+                                        textView.setText(message);
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                };
+                t.start();
+                textView.setText("######");
+                textView.setClickable(false);
+            }
+        });
+
 
         LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp2.weight = 7.0f;
