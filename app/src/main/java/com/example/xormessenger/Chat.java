@@ -104,14 +104,14 @@ public class Chat extends AppCompatActivity {
         LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp2.weight = 7.0f;
 
-//        if(type == 1) {
-//            lp2.gravity = Gravity.LEFT;
-//            textView.setBackgroundResource(R.drawable.bubble_in);
-//        }
-//        else{
-//            lp2.gravity = Gravity.RIGHT;
-//            textView.setBackgroundResource(R.drawable.bubble_out);
-//        }
+        if(type == 1) {
+            lp2.gravity = Gravity.RIGHT;
+            textView.setBackgroundResource(R.drawable.bubble_in);
+        }
+        else{
+            lp2.gravity = Gravity.LEFT;
+            textView.setBackgroundResource(R.drawable.bubble_out);
+        }
         textView.setLayoutParams(lp2);
         layout.addView(textView);
         scrollView.fullScroll(View.FOCUS_DOWN);
