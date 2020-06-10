@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "75220257789",
+    "firebase_url": "https://xor-messenger-d045b.firebaseio.com",
+    "project_id": "xor-messenger-d045b",
+    "storage_bucket": "xor-messenger-d045b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75220257789:android:f2be2505b5bd57f840a794",
+        "android_client_info": {
+          "package_name": "com.example.xormessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75220257789-kqb73646ob2jcgf50rnrhqtliuv5t1pn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.xormessenger",
+            "certificate_hash": "9088ad0c8c580eb301ba4573b33430219d0762e9"
+          }
+        },
+        {
+          "client_id": "75220257789-gspuoef00qdd3v9rv9jcsvdrvjhhgkbc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHWAn3sm5nYqF-Lzv93ynCCGDdQGqpSaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75220257789-gspuoef00qdd3v9rv9jcsvdrvjhhgkbc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
