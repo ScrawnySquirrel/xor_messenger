@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#1E2019" >
 
     <TextView
         android:layout_width="match_parent"
@@ -12,36 +13,45 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="@string/login"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textColor="#D3D0CB"/>
 
     <EditText
         android:id="@+id/username"
         android:layout_width="362dp"
         android:layout_height="49dp"
         android:layout_marginBottom="10dp"
-        android:background="#000000"
+        android:background="#393E41"
         android:hint="@string/enter_username"
         android:inputType="text"
         android:maxLines="1"
-        android:textColor="#ffffff" />
+        android:textColor="#E2C044"
+        android:padding="6dp"
+        android:textColorHint="#D3D0CB" />
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="358dp"
+        android:layout_width="362dp"
         android:layout_height="49dp"
         android:layout_marginBottom="10dp"
-        android:background="#000000"
+        android:background="#393E41"
         android:hint="@string/enter_password"
         android:inputType="textPassword"
         android:maxLines="1"
-        android:textColor="#ffffff" />
+        android:textColor="#E2C044"
+        android:padding="6dp"
+        android:textColorHint="#D3D0CB" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="@string/login" />
+        android:text="@string/login"
+        android:background="#587B7F"
+        android:textColor="#D3D0CB"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -49,6 +59,9 @@
         android:text="@string/click_here_to_register"
         android:textSize="20sp"
         android:gravity="center"
-        android:id="@+id/register"/>
+        android:id="@+id/register"
+        android:textColor="#D3D0CB"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp" />
 
 </LinearLayout>

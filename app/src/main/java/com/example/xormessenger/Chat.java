@@ -2,6 +2,7 @@ package com.example.xormessenger;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -123,11 +124,21 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
 
         if(type == 1) {
             lp2.gravity = Gravity.RIGHT;
-            textView.setBackgroundResource(R.drawable.bubble_in);
+            if (encrypted) {
+                textView.setBackgroundResource(R.drawable.bubble_in_enc);
+                textView.setTextColor(Color.parseColor("#FFFFFF"));
+            } else {
+                textView.setBackgroundResource(R.drawable.bubble_in);
+            }
         }
         else{
             lp2.gravity = Gravity.LEFT;
-            textView.setBackgroundResource(R.drawable.bubble_out);
+            if (encrypted) {
+                textView.setBackgroundResource(R.drawable.bubble_out_enc);
+                textView.setTextColor(Color.parseColor("#FFFFFF"));
+            } else {
+                textView.setBackgroundResource(R.drawable.bubble_out);
+            }
         }
         textView.setLayoutParams(lp2);
         layout.addView(textView);
