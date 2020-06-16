@@ -53,19 +53,19 @@ public class Register extends AppCompatActivity {
                 user = username.getText().toString();
                 pass = password.getText().toString();
 
-                if(user.equals("")){
+                if(user.equals("")) {
                     username.setError("can't be blank");
                 }
-                else if(pass.equals("")){
+                else if(pass.equals("")) {
                     password.setError("can't be blank");
                 }
-                else if(!user.matches("[A-Za-z0-9]+")){
+                else if(!user.matches("[A-Za-z0-9]+")) {
                     username.setError("only alphabet or number allowed");
                 }
-                else if(user.length()<5){
+                else if(user.length()<5) {
                     username.setError("at least 5 characters long");
                 }
-                else if(pass.length()<5){
+                else if(pass.length()<5) {
                     password.setError("at least 5 characters long");
                 }
                 else {
@@ -75,7 +75,7 @@ public class Register extends AppCompatActivity {
 
                     String url = "https://xor-messenger-d045b.firebaseio.com/users.json";
 
-                    StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+                    StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             Firebase reference = new Firebase("https://xor-messenger-d045b.firebaseio.com/users");
@@ -103,7 +103,7 @@ public class Register extends AppCompatActivity {
                             pd.dismiss();
                         }
 
-                    },new Response.ErrorListener(){
+                    },new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             System.out.println("" + volleyError );

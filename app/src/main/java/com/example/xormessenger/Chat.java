@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -24,13 +25,17 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Chat extends AppCompatActivity {
+public class Chat extends AppCompatActivity implements Dialog.DialogListener {
     LinearLayout layout;
     RelativeLayout layout_2;
     ImageView sendButton;
     EditText messageArea;
     ScrollView scrollView;
     Firebase reference1, reference2;
+    ToggleButton encryptButton;
+
+    TextView tview;
+    String msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class Chat extends AppCompatActivity {
         sendButton = findViewById(R.id.sendButton);
         messageArea = findViewById(R.id.messageArea);
         scrollView = findViewById(R.id.scrollView);
+        encryptButton = findViewById(R.id.encryptToggle);
 
         Firebase.setAndroidContext(this);
         reference1 = new Firebase("https://xor-messenger-d045b.firebaseio.com/messages/" + UserDetails.username + "_" + UserDetails.chatWith);
@@ -52,10 +58,15 @@ public class Chat extends AppCompatActivity {
             public void onClick(View v) {
                 String messageText = messageArea.getText().toString();
 
-                if(!messageText.equals("")){
+                if (!messageText.equals("")) {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("message", messageText);
                     map.put("user", UserDetails.username);
+                    if (encryptButton.isChecked()) {
+                        map.put("encrypt", "true");
+                    } else {
+                        map.put("encrypt", "false");
+                    }
                     reference1.push().setValue(map);
                     reference2.push().setValue(map);
                     messageArea.setText("");
@@ -69,67 +80,43 @@ public class Chat extends AppCompatActivity {
                 Map map = dataSnapshot.getValue(Map.class);
                 String message = map.get("message").toString();
                 String userName = map.get("user").toString();
+                boolean encrypt = Boolean.parseBoolean(map.get("encrypt").toString());
 
-                if(userName.equals(UserDetails.username)){
-                    addMessageBox(message, 1);
+                if(userName.equals(UserDetails.username)) {
+                    addMessageBox(message, 1, encrypt);
                 }
                 else{
-                    addMessageBox(message, 2);
+                    addMessageBox(message, 2, encrypt);
                 }
             }
-
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
     }
 
-    public void addMessageBox(final String message, int type){
+    public void addMessageBox(final String message, int type, final boolean encrypted) {
         final TextView textView = new TextView(Chat.this);
-        textView.setText(message);
-        textView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Thread t = new Thread() {
+        if (encrypted) {
+            textView.setText("<Encrypted Message>");
+        } else {
+            textView.setText(message);
+        }
 
-                    @Override
-                    public void run() {
-                        try {
-                            while (!isInterrupted()) {
-                                Thread.sleep(5000);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        textView.setClickable(true);
-                                        textView.setText(message);
-                                    }
-                                });
-                            }
-                        } catch (InterruptedException e) {
-                        }
-                    }
-                };
-                t.start();
-                textView.setText("######");
-                textView.setClickable(false);
-            }
-        });
-
+        if (encrypted) {
+            textView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    tview = textView;
+                    msg = message;
+                    openDialog();
+                }
+            });
+        }
 
         LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp2.weight = 7.0f;
@@ -145,5 +132,44 @@ public class Chat extends AppCompatActivity {
         textView.setLayoutParams(lp2);
         layout.addView(textView);
         scrollView.fullScroll(View.FOCUS_DOWN);
+    }
+
+    public void decryptMessage() {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(5000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tview.setClickable(true);
+                                tview.setText("<Encrypted Message>");
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        t.start();
+        tview.setText(msg);
+        tview.setClickable(false);
+    }
+
+    public void openDialog() {
+        Dialog passDialog = new Dialog();
+        passDialog.show(getSupportFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void applyTexts(String password) {
+        if (password.equals(UserDetails.password)) {
+            Toast.makeText(Chat.this, "Correct Password", Toast.LENGTH_SHORT).show();
+            decryptMessage();
+        } else {
+            Toast.makeText(Chat.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+        }
     }
 }
