@@ -50,10 +50,10 @@ public class Login extends AppCompatActivity {
                 user = username.getText().toString();
                 pass = password.getText().toString();
 
-                if(user.equals("")){
+                if(user.equals("")) {
                     username.setError("can't be blank");
                 }
-                else if(pass.equals("")){
+                else if(pass.equals("")) {
                     password.setError("can't be blank");
                 }
                 else{
@@ -62,20 +62,20 @@ public class Login extends AppCompatActivity {
                     pd.setMessage("Loading...");
                     pd.show();
 
-                    StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+                    StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
-                            if(s.equals("null")){
+                            if(s.equals("null")) {
                                 Toast.makeText(Login.this, "user not found", Toast.LENGTH_LONG).show();
                             }
                             else{
                                 try {
                                     JSONObject obj = new JSONObject(s);
 
-                                    if(!obj.has(user)){
+                                    if(!obj.has(user)) {
                                         Toast.makeText(Login.this, "user not found", Toast.LENGTH_LONG).show();
                                     }
-                                    else if(obj.getJSONObject(user).getString("password").equals(pass)){
+                                    else if(obj.getJSONObject(user).getString("password").equals(pass)) {
                                         UserDetails.username = user;
                                         UserDetails.password = pass;
                                         startActivity(new Intent(Login.this, Users.class));
@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity {
 
                             pd.dismiss();
                         }
-                    },new Response.ErrorListener(){
+                    },new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             System.out.println("" + volleyError);
