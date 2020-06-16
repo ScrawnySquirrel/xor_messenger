@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -22,7 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class Users extends AppCompatActivity {
     ListView usersList;
@@ -97,7 +101,34 @@ public class Users extends AppCompatActivity {
         else {
             noUsersText.setVisibility(View.GONE);
             usersList.setVisibility(View.VISIBLE);
-            usersList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al));
+//            usersList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al));
+
+            // Create a List from String Array elements
+            final List<String> user_list = new ArrayList<String>(al);
+
+            // Create an ArrayAdapter from List
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
+                    (this, android.R.layout.simple_list_item_1, user_list){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+                    // Get the current item from ListView
+                    View view = super.getView(position,convertView,parent);
+                    if(position %2 == 1)
+                    {
+                        // Set a background color for ListView regular row/item
+                        view.setBackgroundColor(Color.parseColor("#EEDB94"));
+                    }
+                    else
+                    {
+                        // Set the background color for alternate row/item
+                        view.setBackgroundColor(Color.parseColor("#9AB6B9"));
+                    }
+                    return view;
+                }
+            };
+
+            // DataBind ListView with items from ArrayAdapter
+            usersList.setAdapter(arrayAdapter);
         }
 
         pd.dismiss();
