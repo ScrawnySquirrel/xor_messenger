@@ -142,7 +142,7 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
         }
         textView.setLayoutParams(lp2);
         layout.addView(textView);
-        scrollView.fullScroll(View.FOCUS_DOWN);
+        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
     public void decryptMessage() {

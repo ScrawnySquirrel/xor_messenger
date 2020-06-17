@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#1E2019" >
+    android:background="@drawable/background" >
 
     <TextView
         android:layout_width="match_parent"
@@ -14,33 +14,33 @@
         android:gravity="center"
         android:text="@string/login"
         android:textSize="30sp"
-        android:textColor="#D3D0CB"/>
+        android:textColor="#424242"/>
 
     <EditText
         android:id="@+id/username"
         android:layout_width="362dp"
         android:layout_height="49dp"
         android:layout_marginBottom="10dp"
-        android:background="#393E41"
+        android:background="#C1ECEC"
         android:hint="@string/enter_username"
         android:inputType="text"
         android:maxLines="1"
-        android:textColor="#E2C044"
+        android:textColor="#424242"
         android:padding="6dp"
-        android:textColorHint="#D3D0CB" />
+        android:textColorHint="#908F8C" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="362dp"
         android:layout_height="49dp"
         android:layout_marginBottom="10dp"
-        android:background="#393E41"
+        android:background="#C1ECEC"
         android:hint="@string/enter_password"
         android:inputType="textPassword"
         android:maxLines="1"
-        android:textColor="#E2C044"
+        android:textColor="#424242"
         android:padding="6dp"
-        android:textColorHint="#D3D0CB" />
+        android:textColorHint="#908F8C" />
 
     <Button
         android:id="@+id/loginButton"
@@ -48,8 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="@string/login"
-        android:background="#587B7F"
-        android:textColor="#D3D0CB"
+        android:background="#FCEADE"
+        android:textColor="#424242"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp" />
 
@@ -60,7 +60,7 @@
         android:textSize="20sp"
         android:gravity="center"
         android:id="@+id/register"
-        android:textColor="#D3D0CB"
+        android:textColor="#424242"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp" />
 

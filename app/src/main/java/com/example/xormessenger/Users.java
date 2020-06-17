@@ -116,12 +116,12 @@ public class Users extends AppCompatActivity {
                     if(position %2 == 1)
                     {
                         // Set a background color for ListView regular row/item
-                        view.setBackgroundColor(Color.parseColor("#EEDB94"));
+                        view.setBackgroundColor(Color.parseColor("#DBF1F1"));
                     }
                     else
                     {
                         // Set the background color for alternate row/item
-                        view.setBackgroundColor(Color.parseColor("#9AB6B9"));
+                        view.setBackgroundColor(Color.parseColor("#F9F0EA"));
                     }
                     return view;
                 }
