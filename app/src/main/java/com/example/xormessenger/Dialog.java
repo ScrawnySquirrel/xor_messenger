@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -39,6 +40,14 @@ public class Dialog extends AppCompatDialogFragment {
         });
 
         editTextPassword = view.findViewById(R.id.dialogPass);
+
+        editTextPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Chat.scrollDown();
+                return false;
+            }
+        });
 
         return builder.create();
     }

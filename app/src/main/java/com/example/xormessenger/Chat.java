@@ -3,8 +3,10 @@ package com.example.xormessenger;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.graphics.RenderNode;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -31,10 +33,9 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
     RelativeLayout layout_2;
     ImageView sendButton;
     EditText messageArea;
-    ScrollView scrollView;
+    static ScrollView scrollView;
     Firebase reference1, reference2;
     ToggleButton encryptButton;
-
     TextView tview;
     String msg;
 
@@ -53,6 +54,14 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
         Firebase.setAndroidContext(this);
         reference1 = new Firebase("https://xor-messenger-d045b.firebaseio.com/messages/" + UserDetails.username + "_" + UserDetails.chatWith);
         reference2 = new Firebase("https://xor-messenger-d045b.firebaseio.com/messages/" + UserDetails.chatWith + "_" + UserDetails.username);
+
+        messageArea.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scrollDown();
+                return false;
+            }
+        });
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +108,7 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
             @Override
             public void onCancelled(FirebaseError firebaseError) {}
         });
+        scrollDown();
     }
 
     public void addMessageBox(final String message, int type, final boolean encrypted) {
@@ -142,7 +152,6 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
         }
         textView.setLayoutParams(lp2);
         layout.addView(textView);
-//        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
         scrollDown();
     }
 
@@ -168,6 +177,7 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
         t.start();
         tview.setText(msg);
         tview.setClickable(false);
+        scrollDown();
     }
 
     public void openDialog() {
@@ -185,17 +195,13 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
         }
     }
 
-    void scrollDown()
+    public static void scrollDown()
     {
-        Thread scrollThread = new Thread(){
-            public void run(){
+        Thread scrollThread = new Thread() {
+            public void run() {
                 try {
-                    sleep(200);
-                    Chat.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            scrollView.fullScroll(View.FOCUS_DOWN);
-                        }
-                    });
+                    sleep(300);
+                    scrollView.fullScroll(View.FOCUS_DOWN);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
