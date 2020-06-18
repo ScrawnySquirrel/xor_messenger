@@ -142,7 +142,8 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
         }
         textView.setLayoutParams(lp2);
         layout.addView(textView);
-        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+//        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+        scrollDown();
     }
 
     public void decryptMessage() {
@@ -182,5 +183,24 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
         } else {
             Toast.makeText(Chat.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    void scrollDown()
+    {
+        Thread scrollThread = new Thread(){
+            public void run(){
+                try {
+                    sleep(200);
+                    Chat.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            scrollView.fullScroll(View.FOCUS_DOWN);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        scrollThread.start();
     }
 }
