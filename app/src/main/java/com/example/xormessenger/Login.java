@@ -78,6 +78,7 @@ public class Login extends AppCompatActivity {
                                     else if(obj.getJSONObject(user).getString("password").equals(pass)) {
                                         UserDetails.username = user;
                                         UserDetails.password = pass;
+                                        Toast.makeText(Login.this, "Logging in...", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(Login.this, Users.class));
                                     }
                                     else {
