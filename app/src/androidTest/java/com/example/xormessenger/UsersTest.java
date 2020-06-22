@@ -20,6 +20,7 @@ public class UsersTest {
     @Test
     public void usersTest() {
         try {
+            Thread.sleep(1000);
             onView(withId(R.id.usersList)).check(matches(isDisplayed()));
         } catch (Exception NoMatchingViewException) {
             onView(withId(R.id.noUsersText)).check(matches(isDisplayed()));
