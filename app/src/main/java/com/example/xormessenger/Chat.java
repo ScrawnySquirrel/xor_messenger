@@ -1,10 +1,8 @@
 package com.example.xormessenger;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
-import android.graphics.RenderNode;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -25,8 +25,6 @@ import com.firebase.client.FirebaseError;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Chat extends AppCompatActivity implements Dialog.DialogListener {
     LinearLayout layout;
@@ -69,18 +67,12 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
                 String messageText = messageArea.getText().toString();
 
                 if (!messageText.equals("")) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("message", messageText);
-                    map.put("user", UserDetails.username);
-                    if (encryptButton.isChecked()) {
-                        map.put("encrypt", "true");
-                    } else {
-                        map.put("encrypt", "false");
-                    }
+                    Map<String, String> map = constructRequestBody(messageText);
                     reference1.push().setValue(map);
                     reference2.push().setValue(map);
                     messageArea.setText("");
                 }
+                Log.d("DEBUG", Integer.toString(layout.getChildCount()));
             }
         });
 
@@ -109,6 +101,18 @@ public class Chat extends AppCompatActivity implements Dialog.DialogListener {
             public void onCancelled(FirebaseError firebaseError) {}
         });
         scrollDown();
+    }
+
+    public Map<String, String> constructRequestBody(String msg) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("message", msg);
+        map.put("user", UserDetails.username);
+        if (encryptButton.isChecked()) {
+            map.put("encrypt", "true");
+        } else {
+            map.put("encrypt", "false");
+        }
+        return map;
     }
 
     public void addMessageBox(final String message, int type, final boolean encrypted) {
