@@ -1,7 +1,5 @@
 package com.example.xormessenger;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -49,61 +49,65 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 user = username.getText().toString();
                 pass = password.getText().toString();
+                String userCheck = UserDetails.checkUsername(user);
+                String passCheck = UserDetails.checkPassword(pass);
 
-                if(user.equals("")) {
-                    username.setError("can't be blank");
-                }
-                else if(pass.equals("")) {
-                    password.setError("can't be blank");
+                if(!userCheck.isEmpty()) {
+                    username.setError(userCheck);
+                } else if(!passCheck.isEmpty()) {
+                    password.setError(passCheck);
                 }
                 else{
-                    String url = "https://xor-messenger-d045b.firebaseio.com/users.json";
-                    final ProgressDialog pd = new ProgressDialog(Login.this);
-                    pd.setMessage("Loading...");
-                    pd.show();
-
-                    StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String s) {
-                            if(s.equals("null")) {
-                                Toast.makeText(Login.this, "user not found", Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                try {
-                                    JSONObject obj = new JSONObject(s);
-
-                                    if(!obj.has(user)) {
-                                        Toast.makeText(Login.this, "user not found", Toast.LENGTH_LONG).show();
-                                    }
-                                    else if(obj.getJSONObject(user).getString("password").equals(pass)) {
-                                        UserDetails.username = user;
-                                        UserDetails.password = pass;
-                                        Toast.makeText(Login.this, "Logging in...", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(Login.this, Users.class));
-                                    }
-                                    else {
-                                        Toast.makeText(Login.this, "incorrect password", Toast.LENGTH_LONG).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            pd.dismiss();
-                        }
-                    },new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            System.out.println("" + volleyError);
-                            pd.dismiss();
-                        }
-                    });
-
-                    RequestQueue rQueue = Volley.newRequestQueue(Login.this);
-                    rQueue.add(request);
+                    loginRequest();
                 }
-
             }
         });
+    }
+
+    protected void loginRequest() {
+        String url = "https://xor-messenger-d045b.firebaseio.com/users.json";
+        final ProgressDialog pd = new ProgressDialog(Login.this);
+        pd.setMessage("Loading...");
+        pd.show();
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                if(s.equals("null")) {
+                    Toast.makeText(Login.this, "user not found", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    try {
+                        JSONObject obj = new JSONObject(s);
+
+                        if(!obj.has(user)) {
+                            Toast.makeText(Login.this, "user not found", Toast.LENGTH_LONG).show();
+                        }
+                        else if(obj.getJSONObject(user).getString("password").equals(pass)) {
+                            UserDetails.username = user;
+                            UserDetails.password = pass;
+                            Toast.makeText(Login.this, "Logging in...", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(Login.this, Users.class));
+                        }
+                        else {
+                            Toast.makeText(Login.this, "incorrect password", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                pd.dismiss();
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                System.out.println("" + volleyError);
+                pd.dismiss();
+            }
+        });
+
+        RequestQueue rQueue = Volley.newRequestQueue(Login.this);
+        rQueue.add(request);
     }
 }
