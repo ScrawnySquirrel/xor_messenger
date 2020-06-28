@@ -9,10 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Users"/>
-        <activity android:name=".Chat" />
-        <activity android:name=".Login" />
-        <activity android:name=".Register">
+        <activity
+            android:name=".Users"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".Chat"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".Login"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".Register"
+            android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
